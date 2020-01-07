@@ -59,7 +59,7 @@ void loop() {
         }
 
         if (bot.messages[i].text == "/OFFservo") {
-          myservo.detach();                     // sets the servo position
+          myservo.write(0);                     // sets the servo position
           bot.sendMessage(bot.messages[i].chat_id, "Servo is OFF", "");
         }
 
