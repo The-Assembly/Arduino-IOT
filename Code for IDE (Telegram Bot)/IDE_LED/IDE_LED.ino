@@ -8,6 +8,7 @@ char PASS[] = " ";    //insert network password
 
 #define BOTtoken " "    //insert your unique BOT token
 #define LEDPIN 2
+int pulse = 0 ;
 
 WiFiSSLClient client;
 UniversalTelegramBot bot(BOTtoken, client);
