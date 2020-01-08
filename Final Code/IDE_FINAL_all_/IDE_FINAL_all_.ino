@@ -6,10 +6,10 @@
 #include <Servo.h>        //only for Servo
 
 
-char SSID[] = " ";                            // ENTER NETWORK SSID & PASS
-char PASS[] = " ";
+char SSID[] = "";                            // ENTER NETWORK SSID & PASS
+char PASS[] = "";
 
-#define BOTtoken " "  //YOUR BOT TOKEN 
+#define BOTtoken ""  //YOUR BOT TOKEN 
 #define LEDPIN 2    //YOUR PIN NUMBER ON BOARD
 #define DHTPIN  5
 #define LDRPIN A0
@@ -113,6 +113,29 @@ void loop() {
                 Serial.println(pulse); // will print the value of the pulse in the serial monitor 
           }
 
+
+if (bot.messages[i].text == "/FADE")
+       {
+
+        pulse = 0;
+        while (pulse < 255)
+        {
+          pulse = pulse + 40;
+          analogWrite(LEDPIN, pulse);
+          delay(300);
+        }
+        while (pulse > 0)
+        {
+          pulse = pulse - 40;
+          analogWrite(LEDPIN, pulse);
+          delay(300);
+        }
+        pulse = 0;
+
+        bot.sendMessage(bot.messages[i].chat_id,"LED has faded!", ""); // The bot will notifiy you that it is turned off
+                
+       
+       }
         if (bot.messages[i].text == "/TEMP")
           bot.sendMessage(bot.messages[i].chat_id, "Temperature is " + String(myTemperature) + "*C", "");
 
@@ -141,7 +164,7 @@ void loop() {
         }
 
         if (bot.messages[i].text == "/OFFservo") {
-          myservo.write(0);                     // sets the servo position
+          myservo.detach();                     // sets the servo position
           bot.sendMessage(bot.messages[i].chat_id, "Servo is OFF", "");
         }
 
@@ -160,7 +183,7 @@ void loop() {
 
         if (bot.messages[i].text == "help")
         {
-          bot.sendMessage(bot.messages[i].chat_id, "Hello ASSEMBLY attendee! I am your bot! \n Use following commands: \n /ON - turns on the LED connected \n /OFF - turns off LED connected \n /TEMP - gives temperature \n /HUMID - gives humidity \n /Increase - increases LED brightness \n /Decrease - decreases LED brightness \n /ONservo - pushes servo out \n /OFFservo - pulls servo back \n /TRYservo - test servo", "");
+          bot.sendMessage(bot.messages[i].chat_id, "Hello ASSEMBLY attendee! I am your bot! \n Use following commands: \n /ON - turns on the LED connected \n /OFF - turns off LED connected \n /TEMP - gives temperature \n /HUMID - gives humidity \n /Increase - increases LED brightness \n /Decrease - decreases LED brightness \n  /FADE - shows led fading \n /ONservo - pushes servo out \n /OFFservo - pulls servo back \n /TRYservo - test servo", "");
         }
 
 
