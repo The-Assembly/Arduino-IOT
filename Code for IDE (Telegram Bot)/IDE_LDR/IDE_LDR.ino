@@ -1,4 +1,4 @@
-//This is LDR with Telegram
+//Telegram Bot with Light-Dependent-Resistor
 
 #include <WiFiNINA.h>
 #include <UniversalTelegramBot.h>
@@ -13,8 +13,8 @@ char PASS[] = " ";
 
 WiFiSSLClient client;
 UniversalTelegramBot bot(BOTtoken, client);
-int Bot_mtbs = 1000;
-long Bot_lasttime;
+int Bot_mtbs = 1000;      //mean time between messages
+long Bot_lasttime;        //last scan messages which is done
 
 int LDRvalue;
 
@@ -54,9 +54,9 @@ void loop() {
       for (int i = 0; i < numNewMessages; i++) {
 
        
-        if (bot.messages[i].text == "/LDR")
+        if (bot.messages[i].text == "/LDR")     //NOTE to give the LDR ~30 seconds time
         {
-          if (LDRvalue <= 200)
+          if (LDRvalue <= 200)      //lowest detection of LDR are below 200 (if you cover it with your finger and wait)
             bot.sendMessage(bot.messages[i].chat_id, "DARK : Analog Value = " + String(LDRvalue), "");
 
           else if (LDRvalue > 200 && LDRvalue <= 500)
@@ -65,7 +65,7 @@ void loop() {
           else if (LDRvalue > 500 && LDRvalue <= 800)
             bot.sendMessage(bot.messages[i].chat_id, "BRIGHT LIGHT : Analog Value = " + String(LDRvalue), "");
 
-          else if (LDRvalue > 800)
+          else if (LDRvalue > 800)    //highest detection of LDR is above 800 (if you point a flash-light and wait)
             bot.sendMessage(bot.messages[i].chat_id, "FULL DAY LIGHT : Analog Value = " + String(LDRvalue), "");
 
         }
@@ -73,7 +73,7 @@ void loop() {
         
         if (bot.messages[i].text == "help")
         {
-          bot.sendMessage(bot.messages[i].chat_id, "Hello ASSEMBLY attendee! I am your bot! \n Use following commands: \n /ON - turns on the LED connected \n /OFF - turns off LED connected \n /TEMP - gives temperature \n /HUMID - gives humidity \n /Increase - increases LED brightness \n /Decrease - decreases LED brightness \n /ONservo - pushes servo out \n /OFFservo - pulls servo back \n /TRYservo - test servo", "");
+          bot.sendMessage(bot.messages[i].chat_id, "Hello ASSEMBLY attendee! I am your bot! \n Use following commands: \n /ON - turns on the LED connected \n /OFF - turns off LED connected \n /TEMP - gives temperature \n /HUMID - gives humidity \n /Increase - increases LED brightness \n /Decrease - decreases LED brightness \n /FADE - shows led fading \n /ONservo - pushes servo out \n /OFFservo - pulls servo back \n /TRYservo - test servo", "");
         }
 
 

@@ -9,13 +9,13 @@ char SSID[] = " ";                            // ENTER NETWORK SSID & PASS
 char PASS[] = " ";
 
 #define BOTtoken " "  //YOUR BOT TOKEN 
-#define servoPin 13
+#define servoPin 13   // Servo to 5V and signal to pin 13
 
 
 WiFiSSLClient client;
 UniversalTelegramBot bot(BOTtoken, client);
-int Bot_mtbs = 1000;
-long Bot_lasttime;
+int Bot_mtbs = 1000;    //mean time between messages
+long Bot_lasttime;      //last scan
 
 Servo myservo;                                // create servo object to control a servo
 
@@ -51,14 +51,14 @@ void loop() {
       Serial.println("Got response from Telegram bot");
       for (int i = 0; i < numNewMessages; i++) {
 
-       
-
          if (bot.messages[i].text == "/ONservo") {
+          myservo.attach(servoPin);
           myservo.write(90);                     // sets the servo position
           bot.sendMessage(bot.messages[i].chat_id, "Servo is ON", "");
         }
 
         if (bot.messages[i].text == "/OFFservo") {
+          myservo.write(0);
           myservo.detach();                     // sets the servo position
           bot.sendMessage(bot.messages[i].chat_id, "Servo is OFF", "");
         }
@@ -78,7 +78,7 @@ void loop() {
 
         if (bot.messages[i].text == "help")
         {
-          bot.sendMessage(bot.messages[i].chat_id, "Hello ASSEMBLY attendee! I am your bot! \n Use following commands: \n /ON - turns on the LED connected \n /OFF - turns off LED connected \n /TEMP - gives temperature \n /HUMID - gives humidity \n /Increase - increases LED brightness \n /Decrease - decreases LED brightness \n /ONservo - pushes servo out \n /OFFservo - pulls servo back \n /TRYservo - test servo", "");
+          bot.sendMessage(bot.messages[i].chat_id, "Hello ASSEMBLY attendee! I am your bot! \n Use following commands: \n /ON - turns on the LED connected \n /OFF - turns off LED connected \n /TEMP - gives temperature \n /HUMID - gives humidity \n /Increase - increases LED brightness \n /Decrease - decreases LED brightness \n /FADE - shows led fading \n /ONservo - pushes servo out \n /OFFservo - pulls servo back \n /TRYservo - test servo", "");
         }
 
 

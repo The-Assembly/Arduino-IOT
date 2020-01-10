@@ -1,19 +1,19 @@
-//This is for the Telegram Bot with LED alone (ON, OFF, FADE)
+//Telegram Bot with LED alone for ON, OFF, FADE
 
 
-#include <WiFiNINA.h>  //for creating wifi connection
+#include <WiFiNINA.h>       //for creating wifi connection
 #include <UniversalTelegramBot.h> //for the Telegram bot
-char SSID[] = " ";    //insert network name
-char PASS[] = " ";    //insert network password
+char SSID[] = " ";          //insert network name
+char PASS[] = " ";          //insert network password
 
-#define BOTtoken " "    //insert your unique BOT token
+#define BOTtoken " "        //insert your unique BOT token
 #define LEDPIN 2
 int pulse = 0 ;
 
 WiFiSSLClient client;
 UniversalTelegramBot bot(BOTtoken, client);
-int Bot_mtbs = 1000;
-long Bot_lasttime;
+int Bot_mtbs = 1000;       //mean time between scan messages  
+long Bot_lasttime;         //last time scan has been done
 
 void setup()
 {
@@ -49,16 +49,14 @@ void loop() {
       for (int i = 0; i < numNewMessages; i++) {
 
         if (bot.messages[i].text == "/ON") {
-            pulse = pulse+255;              
+            pulse = 255;              
             bot.sendMessage(bot.messages[i].chat_id,"LED is ON!", "");
-            // will print the value of the pulse in the serial monitor 
           }
-        if (bot.messages[i].text == "/Increase")  { // if you sent this command to your bot
+        if (bot.messages[i].text == "/Increase")  { 
           if(pulse <= 225 ) //if pulse is smaller than or equal to 255
           {
             pulse = pulse+30;            // add 30 to the pulse
-            bot.sendMessage(bot.messages[i].chat_id,"Brightness Increased!", ""); // the message the bot will send to you
-            // will print the value of the pulse in the serial monitor 
+            bot.sendMessage(bot.messages[i].chat_id,"Brightness Increased!", ""); 
           }
            
           else
@@ -84,10 +82,10 @@ void loop() {
 
            
             }
-                if (bot.messages[i].text == "/OFF") { // if you text the bot /OFF 
-                pulse = 0; // the pulse will be set to 0 (it will be turned off)             
+                if (bot.messages[i].text == "/OFF") { 
+                pulse = 0;            // the pulse will be set to 0 (turned off)             
                 bot.sendMessage(bot.messages[i].chat_id,"LED is OFF!", ""); // The bot will notifiy you that it is turned off
-                Serial.println(pulse); // will print the value of the pulse in the serial monitor 
+                Serial.println(pulse);      // will print the value of the pulse in the serial monitor 
           }
 
        if (bot.messages[i].text == "/FADE")
@@ -108,13 +106,13 @@ void loop() {
         }
         pulse = 0;
 
-        bot.sendMessage(bot.messages[i].chat_id,"LED has faded!", ""); // The bot will notifiy you that it is turned off
+        bot.sendMessage(bot.messages[i].chat_id,"LED has faded!", ""); // The bot will notifiy you that it has faded
                 
        
        }
         if (bot.messages[i].text == "help")
         {
-          bot.sendMessage(bot.messages[i].chat_id, "Hello ASSEMBLY attendee! I am your bot! \n Use following commands: \n /ON - turns on the LED connected \n /OFF - turns off LED connected \n /TEMP - gives temperature \n /HUMID - gives humidity \n /FADE - shows you the LED fading \n /Increase - increases LED brightness \n /Decrease - decreases LED brightness \n /ONservo - pushes servo out \n /OFFservo - pulls servo back \n /TRYservo - test servo", "");
+          bot.sendMessage(bot.messages[i].chat_id, "Hello ASSEMBLY attendee! I am your bot! \n Use following commands: \n /ON - turns on the LED connected \n /OFF - turns off LED connected \n /TEMP - gives temperature \n /HUMID - gives humidity \n /FADE - shows you the LED fading \n /Increase - increases LED brightness \n /Decrease - decreases LED brightness \n /FADE - shows led fading \n /ONservo - pushes servo out \n /OFFservo - pulls servo back \n /TRYservo - test servo", "");
         }
 
 
